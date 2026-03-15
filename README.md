@@ -36,9 +36,9 @@ exploit
 whoami
 pwd
 ls -la
-
-### Target 2: Port 23 (Telnet - Brute Force Attack)
-ช่องโหว่นี้เกิดจากการตั้งรหัสผ่านที่คาดเดาง่าย (Weak Password) ประกอบกับ Telnet ส่งข้อมูลแบบ Plain-text 
+```
+Target 2: Port 23 (Telnet - Brute Force Attack)
+ช่องโหว่นี้เกิดจากการตั้งรหัสผ่านที่คาดเดาง่าย (Weak Password) ประกอบกับ Telnet ส่งข้อมูลแบบ Plain-text
 ```bash
 # 1. Scanning
 nmap -p 23 -sV [Target_IP]
@@ -68,9 +68,10 @@ sudo su
 whoami
 cd /root
 ls -la
-
-###
+```
 Post-Mission & Reset
+ขั้นตอนการลบร่องรอยและรีเซ็ตระบบกลับสู่สภาพเดิม
+```bash
 # On Target Machine
 cd /root
 cat reset_logs.sh
@@ -80,5 +81,9 @@ exit
 
 # On Attacker Machine
 clear
+```
+Remediation (ข้อเสนอแนะในการป้องกัน)
+Port 21 (FTP): อัปเดตซอฟต์แวร์ vsftpd ให้เป็นเวอร์ชันล่าสุดที่ไม่มี Backdoor หรือเปลี่ยนไปใช้ SFTP ที่มีความปลอดภัยกว่า
 
+Port 23 (Telnet): ปิดการใช้งาน Telnet เนื่องจากไม่มีการเข้ารหัสข้อมูล และเปลี่ยนไปใช้ SSH (Port 22) แทน รวมถึงตั้งนโยบายรหัสผ่านให้ซับซ้อนขึ้น (Strong Password Policy)
 
